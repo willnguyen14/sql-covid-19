@@ -109,7 +109,7 @@ SELECT deaths.continent, deaths.location,
        deaths.date, deaths.population, 
        vax.new_vaccinations,
        SUM(CONVERT(INT, vax.new_vaccinations)) OVER (PARTITION BY deaths.location 
-						     ORDER BY deaths.location, deaths.date) rolling_people_vaccinated
+						         ORDER BY deaths.location, deaths.date) rolling_people_vaccinated
   FROM PortfolioProject..CovidDeaths deaths
   JOIN PortfolioProject..CovidVaccinations vax
     ON deaths.location = vax.location AND deaths.date = vax.date
@@ -130,7 +130,7 @@ SELECT deaths.continent, deaths.location,
        deaths.date, deaths.population, 
        vax.new_vaccinations,
        SUM(CONVERT(INT, vax.new_vaccinations)) OVER (PARTITION BY deaths.location 
-						     ORDER BY deaths.location, deaths.date) rolling_people_vaccinated
+						         ORDER BY deaths.location, deaths.date) rolling_people_vaccinated
   FROM PortfolioProject..CovidDeaths deaths
   JOIN PortfolioProject..CovidVaccinations vax
     ON deaths.location = vax.location AND deaths.date = vax.date
