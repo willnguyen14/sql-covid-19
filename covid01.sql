@@ -1,5 +1,5 @@
 /*
-Covid-19 Exploration in Microsoft SQL Server (MSSQL)
+Covid-19 Exploration in Microsoft SQL Server (MSSQL) for Making a Dashboard in Tableau
 
 Skills Used: Aggregate Functions, Converting Data Types, Creating Views, Joins, Temp Tables, Windows Functions
 */
