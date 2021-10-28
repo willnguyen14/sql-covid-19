@@ -1,3 +1,8 @@
+/*
+Covid-19 Exploration in Microsoft SQL Server (MSSQL)
+
+Skills Used: Aggregate Functions, Converting Data Types, Creating Views, Joins, Temp Tables, Windows Functions
+*/
 -- Initial exploration of the data
 SELECT *
   FROM PortfolioProject..CovidDeaths
@@ -13,29 +18,29 @@ SELECT location, date, total_cases, new_cases, total_deaths, population
 
 
 -- Shows the total deaths by each country and their highest death count
-SELECT location, SUM(CAST(new_deaths AS INT)) TotalDeathCount
+SELECT location, SUM(CAST(new_deaths AS INT)) total_death_count
   FROM PortfolioProject..CovidDeaths
  WHERE continent IS NOT NULL
  GROUP BY location
- ORDER BY TotalDeathCount DESC
+ ORDER BY total_death_count DESC
 
 
 -- Let's see what is the covid death rate in the US for each day if one is infected
 SELECT location, date, total_cases, total_deaths, 
-	   ROUND((total_deaths/total_cases)*100,2) DeathPercentage
- FROM PortfolioProject..CovidDeaths
-WHERE location LIKE '%states%' AND continent IS NOT NULL
-ORDER BY 1,2
+       ROUND((total_deaths/total_cases)*100,2) death_percentage
+  FROM PortfolioProject..CovidDeaths
+ WHERE location LIKE '%states%' AND continent IS NOT NULL
+ ORDER BY 1,2
 
 
 -- Let's drill outwards and see the death numbers for each continent (continents are also in location column)
--- this is for the BAR CHART visual for the dashboard
--- important to note that we're using new_deaths instead of total_deaths
-SELECT location, SUM(CONVERT(INT, new_deaths)) TotalDeathCount
+-- BAR CHART visual
+-- Important to note that we're using new_deaths instead of total_deaths
+SELECT location, SUM(CONVERT(INT, new_deaths)) total_death_count
   FROM PortfolioProject..CovidDeaths
  WHERE continent IS NULL AND location NOT IN ('World', 'European Union', 'International')
  GROUP BY location
- ORDER BY TotalDeathCount DESC
+ ORDER BY total_death_count DESC
 
 
 -- Shows the number of cases and deaths for the world in each day
@@ -48,7 +53,7 @@ SELECT date, SUM(new_cases) total_cases, SUM(CAST(new_deaths AS INT)) total_deat
 
 
 -- Shows the total aggregated number of deaths, cases, and percent of deaths out of global cases
--- this is for the TEXT visual (world counter for dashboard)
+-- TEXT visual (world counter for dashboard)
 SELECT SUM(new_cases) total_cases, SUM(CONVERT(INT, new_deaths)) total_deaths, 
        SUM(CONVERT(INT, new_deaths))/SUM(new_cases)*100 death_percentage
   FROM PortfolioProject..CovidDeaths
@@ -59,7 +64,7 @@ SELECT SUM(new_cases) total_cases, SUM(CONVERT(INT, new_deaths)) total_deaths,
 -- Now looking at infections data
 -- Shows each country's total infected cases and percentage of a country's population has been infected for each day
 SELECT location, date, total_cases, population,
-	     (total_cases/population)*100 PercentPopulationInfected
+       (total_cases/population)*100 percent_population_infected
   FROM PortfolioProject..CovidDeaths
  WHERE continent IS NOT NULL
  ORDER BY 1,2
@@ -67,21 +72,21 @@ SELECT location, date, total_cases, population,
 
 -- Identifies the countries with the highest percentage of their population who is infected
 -- MAP VISUAL
-SELECT location, MAX(total_cases) HighestInfectionCount, population,
-	   MAX((total_cases/population))*100 PercentPopulationInfected
- FROM PortfolioProject..CovidDeaths
-GROUP BY location, population
-ORDER BY PercentPopulationInfected DESC
+SELECT location, MAX(total_cases) highest_infection_count, population,
+       MAX((total_cases/population))*100 percent_population_infected
+  FROM PortfolioProject..CovidDeaths
+ GROUP BY location, population
+ ORDER BY percent_population_infected DESC
 
 -----------------------------------------------------------------------
 
 -- Taking the previous query and incorportating the date column to see which days had the highest population infection rate
--- for the TIME SERIES chart
-SELECT location, date, MAX(total_cases) HighestInfectionCount, 
-       population, MAX((total_cases/population))*100 PercentPopulationInfected
+-- TIME SERIES chart
+SELECT location, date, MAX(total_cases) highest_infection_count, 
+       population, MAX((total_cases/population))*100 percent_population_infected
   FROM PortfolioProject..CovidDeaths
  GROUP BY Location, Population, date
- ORDER BY PercentPopulationInfected DESC
+ ORDER BY percent_population_infected DESC
 
 -----------------------------------------------------------------------
 
@@ -102,7 +107,7 @@ CREATE TABLE #percent_population_vaccinated
 INSERT INTO #percent_population_vaccinated
 SELECT deaths.continent, deaths.location, 
        deaths.date, deaths.population, 
-	   vax.new_vaccinations,
+       vax.new_vaccinations,
        SUM(CONVERT(INT, vax.new_vaccinations)) OVER (PARTITION BY deaths.location 
 						     ORDER BY deaths.location, deaths.date) rolling_people_vaccinated
   FROM PortfolioProject..CovidDeaths deaths
@@ -123,7 +128,7 @@ DROP VIEW IF EXISTS percent_population_vaccinated GO
 CREATE VIEW percent_population_vaccinated AS
 SELECT deaths.continent, deaths.location, 
        deaths.date, deaths.population, 
-	   vax.new_vaccinations,
+       vax.new_vaccinations,
        SUM(CONVERT(INT, vax.new_vaccinations)) OVER (PARTITION BY deaths.location 
 						     ORDER BY deaths.location, deaths.date) rolling_people_vaccinated
   FROM PortfolioProject..CovidDeaths deaths
@@ -133,5 +138,5 @@ SELECT deaths.continent, deaths.location,
     GO
 
 SELECT *
-FROM percent_population_vaccinated
-ORDER BY location, date
+  FROM percent_population_vaccinated
+ ORDER BY location, date
