@@ -4,6 +4,8 @@
 - Uncovered death and infection rates by country, continent, and world
 - Discovered which countries had the highest death and infection rates
 
-Complete dashboard found here on my [Tableau Public page](https://public.tableau.com/app/profile/will.nguyen/viz/Covid-19Visualization_16336779056520/Dashboard1).\n
-Data taken from [ourworldindata.org](https://ourworldindata.org/covid-deaths)\n
+Complete dashboard found here on my [Tableau Public page](https://public.tableau.com/app/profile/will.nguyen/viz/Covid-19Visualization_16336779056520/Dashboard1).
+
+Data taken from [ourworldindata.org](https://ourworldindata.org/covid-deaths)
+
 Technologies Used: Microsoft SQL Server, Microsoft Excel, Tableau Public
