@@ -1,3 +1,5 @@
+![App Screenshot](hello-i-m-nik-VWqvVNbBWyI-unsplash.jpg)
+
 # About The Project
 - Explored Covid-19 data in preparation for visualization in the form of a dashboard in Tableau Public.
 - Skills Used: Aggregate Functions, Converting Data Types, Creating Views, Joins, Temp Tables, Windows Functions
