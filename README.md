@@ -1,4 +1,4 @@
-![App Screenshot](hello-i-m-nik-VWqvVNbBWyI-unsplash.jpg)
+![App Screenshot](resized.jpg)
 
 # About The Project
 - Explored Covid-19 data in preparation for visualization in the form of a dashboard in Tableau Public.
