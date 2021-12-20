@@ -41,7 +41,7 @@ Paste the output of each individual query into their own .xlsx file.
            SUM(CONVERT(INT, new_deaths))/SUM(new_cases)*100 death_percentage
       FROM PortfolioProject..CovidDeaths
      WHERE continent IS NOT NULL
-![Visual](global_numbers.jpg)
+![Visual](git_repo_screenshots/global_numbers.jpg)
 
 **Total Deaths Per Continent for Bar Chart:**
 
@@ -50,7 +50,7 @@ Paste the output of each individual query into their own .xlsx file.
      WHERE continent IS NULL AND location NOT IN ('World', 'European Union', 'International')
      GROUP BY location
      ORDER BY total_death_count DESC
-![Visual](bar_deaths_continent.jpg)
+![Visual](git_repo_screenshots/bar_deaths_continent.jpg)
 
 **Percent Population Infected Per Country for Map Visualization:**
 
@@ -59,7 +59,7 @@ Paste the output of each individual query into their own .xlsx file.
       FROM PortfolioProject..CovidDeaths
      GROUP BY location, population
      ORDER BY percent_population_infected DESC
-![Visual](map_infected.jpg)
+![Visual](git_repo_screenshots/map_infected.jpg)
 
 **Percent Population Infected Over Time of Selected Countries for Time Series Line Chart:**
 
@@ -68,4 +68,4 @@ Paste the output of each individual query into their own .xlsx file.
       FROM PortfolioProject..CovidDeaths
      GROUP BY Location, Population, date
      ORDER BY percent_population_infected DESC
-![Visual](time_series_infected.jpg)
+![Visual](git_repo_screenshots/time_series_infected.jpg)
